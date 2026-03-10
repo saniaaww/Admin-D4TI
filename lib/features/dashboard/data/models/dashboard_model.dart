@@ -1,39 +1,42 @@
+/// Model statistik di dashboard
 class DashboardStats {
   final String title;
   final String value;
   final String subtitle;
-  final bool isIncrease;
-  final double percentage;
+  // final double percentage;
+  // final bool isIncrease;
 
   DashboardStats({
     required this.title,
     required this.value,
     required this.subtitle,
-    required this.percentage,
-    required this.isIncrease,
-});
+    // required this.percentage,
+    // required this.isIncrease,
+  });
 
-  factory DashboardStats.fromJson(Map<String, dynamic> json){
-    return DashboardStats(title: json['title'] ?? '',
-        value: json['value'] ?? '0',
-        subtitle: json ['subtitle'] ?? '',
-        percentage: (json['percentage'] ?? 0).toDouble(),
-        isIncrease: json['isIncrease'] ?? true,
+  factory DashboardStats.fromJson(Map<String, dynamic> json) {
+    return DashboardStats(
+      title: json['title'] ?? '',
+      value: json['value'] ?? '0',
+      subtitle: json['subtitle'] ?? '',
+      // percentage: (json['percentage'] ?? 0).toDouble(),
+      // isIncrease: json['isIncrease'] ?? true,
     );
   }
 
-  Map<String, dynamic> toJson(){
+  Map<String, dynamic> toJson() {
     return {
       'title': title,
       'value': value,
       'subtitle': subtitle,
-      'percentage': percentage,
-      'isIncrease': isIncrease,
+      // 'percentage': percentage,
+      // 'isIncrease': isIncrease,
     };
   }
 }
 
-class DashboardData{
+/// Model data dashboard
+class DashboardData {
   final List<DashboardStats> stats;
   final String userName;
   final DateTime lastUpdate;
@@ -42,7 +45,7 @@ class DashboardData{
     required this.stats,
     required this.userName,
     required this.lastUpdate,
-});
+  });
 
   factory DashboardData.fromJson(Map<String, dynamic> json) {
     return DashboardData(
@@ -51,11 +54,11 @@ class DashboardData{
               ?.map((e) => DashboardStats.fromJson(e))
               .toList() ??
           [],
-    userName: json['userName'] ?? 'User',
-    lastUpdate: DateTime.parse(
-      json['lastUpdate'] ?? DateTime.now().toString(),
-    ) ,
-    );
+      userName: json['userName'] ?? 'User',
+      lastUpdate: DateTime.parse(
+        json['lastUpdate'] ?? DateTime.now().toString(),
+      ),
+    ); // DashboardData
   }
 
   Map<String, dynamic> toJson() {
@@ -66,11 +69,12 @@ class DashboardData{
     };
   }
 
+  // Copy with method
   DashboardData copyWith({
     List<DashboardStats>? stats,
     String? userName,
     DateTime? lastUpdate,
-}) {
+  }) {
     return DashboardData(
       stats: stats ?? this.stats,
       userName: userName ?? this.userName,
