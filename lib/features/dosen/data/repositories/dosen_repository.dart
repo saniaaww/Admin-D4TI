@@ -1,43 +1,27 @@
+import 'package:dio/dio.dart';
+// sesuaikan nama package kamu
 import 'package:d4tivokasi/features/dosen/data/models/dosen_models.dart';
 
 class DosenRepository {
-  /// Mendapatkan daftar dosen
-  Future<List<DosenModel>> getDosenList() async {
-    // Simulasi network delay
-    await Future.delayed(const Duration(seconds: 1));
+  final Dio _dio = Dio();
 
-    // Data dummy dosen
-    return [
-      DosenModel(
-        nama: 'Anank Prasetyo',
-        nip: '123456789',
-        email: 'anank.prasetyo@example.com',
-        jurusan: 'Teknik Informatika',
-      ),
-      DosenModel(
-        nama: 'Rachman Sinatriya',
-        nip: '987654321',
-        email: 'rachman.sinatriya@example.com',
-        jurusan: 'Teknik Informatika',
-      ),
-      DosenModel(
-        nama: 'Alfian Sukma',
-        nip: '456789123',
-        email: 'alfian.sukma@example.com',
-        jurusan: 'Teknik Informatika',
-      ),
-      DosenModel(
-        nama: 'Budi Santoso',
-        nip: '321654987',
-        email: 'budi.santoso@example.com',
-        jurusan: 'Teknik Informatika',
-      ),
-      DosenModel(
-        nama: 'Dewi Rahayu',
-        nip: '789123456',
-        email: 'dewi.rahayu@example.com',
-        jurusan: 'Sistem Informasi',
-      ),
-    ];
+  Future<List<DosenModel>> getDosenList() async {
+    try {
+      final response = await _dio.get(
+        'https://jsonplaceholder.typicode.com/users',
+        options: Options(headers: {'Accept': 'application/json'}),
+      );
+
+      if (response.statusCode == 200) {
+        final List<dynamic> data = response.data;
+        print(data); // debug
+        return data.map((json) => DosenModel.fromJson(json)).toList();
+      } else {
+        throw Exception('Gagal memuat data dosen: ${response.statusCode}');
+      }
+    } on DioException catch (e) {
+      print('DioError: ${e.message}');
+      throw Exception('Gagal memuat data dosen: ${e.message}');
+    }
   }
 }

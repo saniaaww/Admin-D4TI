@@ -17,7 +17,7 @@ class MahasiswaNotifier
   Future<void> loadMahasiswaList() async {
     state = const AsyncValue.loading();
     try {
-      final data = await _repository.getMahasiswaList();
+      final data = await _repository.getMahasiswaListHttp();
       state = AsyncValue.data(data);
     } catch (error, stackTrace) {
       state = AsyncValue.error(error, stackTrace);
